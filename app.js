@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser')
 var usersRouter = require('./src/routes/users');
+var adminRouter = require('./src/routes/admins');
 var sequelize = require('./src/configs/sequelize-conf')
 var app = express();
 const db = require('./src/configs/sequelize-conf')
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', usersRouter);
+app.use('/admin', adminRouter);
 
 db.authenticate()
 .then(()=>{
