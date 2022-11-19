@@ -17,5 +17,3 @@ sequelize.sync({force: false}).then(function () {
 });
 
 module.exports = {User, Teacher, Admin, Student};
-
-

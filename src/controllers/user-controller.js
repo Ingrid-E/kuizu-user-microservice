@@ -1,4 +1,4 @@
-const {User, Admin, Student, Teacher} = require('../models/index')
+const {User} = require('../models/index')
 
 module.exports = {
     create_post: async function (req, res) {
@@ -16,5 +16,14 @@ module.exports = {
             return res.status(404).json({ success: false, error: err });
 
         }
+    },
+    get_all: async function (req,res){
+        try{
+            const users = await User.findAll()
+            return res.status(200).json({ success: true, users: JSON.stringify(users, null, 2) });
+        }catch (err){
+            return res.status(404).json({ success: false, error: err });
+        }
     }
 }
+
