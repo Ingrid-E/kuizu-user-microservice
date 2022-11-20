@@ -16,6 +16,6 @@ jobs:
       uses: Co-qn/google-chat-notification@releases/v1
       with:
         name: Build
-        url: 'https://chat.googleapis.com/v1/spaces/AAAAC6nYoHg/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=sWfLPTI3PFOLOG52nuTIzeAx8GbEEVF1T-vX4tOUn5I%3D'
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
         status: ${{ job.status }}
       if: always()
