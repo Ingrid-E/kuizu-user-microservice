@@ -1,15 +1,15 @@
 {
-    "family": "kuizu-user-microservice-td",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:124702891638:task-definition/Kuizu-User-TaskDefinition2:1",
     "containerDefinitions": [
         {
-            "name": "kuizu-user-microservice",
-            "image": "124702891638.dkr.ecr.us-east-1.amazonaws.com/kuizu-user-microservice",
+            "name": "kuizu-users-microservice",
+            "image": "124702891638.dkr.ecr.us-east-1.amazonaws.com/kuizu-users-microservice:latest",
             "cpu": 0,
             "links": [],
             "portMappings": [
                 {
                     "containerPort": 3000,
-                    "hostPort": 3000,
+                    "hostPort": 0,
                     "protocol": "tcp"
                 }
             ],
@@ -30,21 +30,50 @@
             "systemControls": []
         }
     ],
+    "family": "Kuizu-User-TaskDefinition2",
     "executionRoleArn": "arn:aws:iam::124702891638:role/ecsTaskExecutionRole",
     "networkMode": "bridge",
+    "revision": 1,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EXTERNAL",
+        "EC2"
+    ],
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "1024",
-    "memory": "1024",
+    "cpu": "256",
+    "memory": "512",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
+    "registeredAt": "2022-11-22T16:35:51.730Z",
+    "registeredBy": "arn:aws:iam::124702891638:root",
     "tags": [
         {
             "key": "ecs:taskDefinition:createdFrom",
             "value": "ecs-console-v2"
+        },
+        {
+            "key": "ecs:taskDefinition:stackId",
+            "value": "arn:aws:cloudformation:us-east-1:124702891638:stack/ECS-Console-V2-TaskDefinition-8624d56c-6f78-43a7-9111-883ea9aac00a/b6d42590-6a83-11ed-ad20-0e7978bf37f7"
         }
     ]
 }
