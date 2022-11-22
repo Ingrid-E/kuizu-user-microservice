@@ -6,7 +6,7 @@ on:
 
 env:
   ECS_TASK_DEFINITION: task-definition.json 
-  CONTAINER_NAME: kuizu-user-microservice
+  CONTAINER_NAME: kuizu-users-microservice
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
   ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
@@ -55,7 +55,13 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
-
+        environment-variables: |
+            PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+            PG_DATABASE=${{ secrets.PG_DATABASE }}
+            PG_PORT=${{ secrets.PG_PORT }}
+            PG_USER=${{ secrets.PG_USER }}
+            PG_HOST=${{ secrets.PG_HOST }}
+            PORT=${{ secrets.PORT }}
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
