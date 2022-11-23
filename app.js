@@ -24,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', usersRouter);
 app.use('/admin', adminRouter);
-app.use('/teacher', adminRouter);
-app.use('/student', adminRouter);
+app.use('/teacher', teacherRouter);
+app.use('/student', studentRouter);
 
 db.authenticate()
 .then(()=>{
