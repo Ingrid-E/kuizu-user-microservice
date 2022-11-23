@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS
+name: CI/CD 
 
 on:
   push:
@@ -23,6 +23,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Google Chat Notification
+      uses: Co-qn/google-chat-notification@releases/v1
+      with:
+        name: Build Starting
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        status: ${{ job.status }}
+      if: always()
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -69,3 +76,10 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
+    - name: Google Chat Notification
+      uses: Co-qn/google-chat-notification@releases/v1
+      with:
+        name: Build ended
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        status: ${{ job.status }}
+      if: always()
