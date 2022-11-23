@@ -7,8 +7,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser')
 var usersRouter = require('./src/routes/users');
 var adminRouter = require('./src/routes/admins');
-var studentRouter = require('./src/routes/students');
 var teacherRouter = require('./src/routes/teachers');
+var studentRouter = require('./src/routes/students');
 var sequelize = require('./src/configs/sequelize-conf')
 var app = express();
 const db = require('./src/configs/sequelize-conf')
@@ -24,8 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', usersRouter);
 app.use('/admin', adminRouter);
-app.use('/student', studentRouter);
 app.use('/teacher', teacherRouter);
+app.use('/student', studentRouter);
+
 
 db.authenticate()
 .then(()=>{
