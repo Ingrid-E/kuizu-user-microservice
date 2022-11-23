@@ -1,5 +1,4 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:124702891638:task-definition/Kuizu-UserMicro-TaskDefinition:1",
     "containerDefinitions": [
         {
             "name": "kuizu-users-microservice",
@@ -33,28 +32,8 @@
     "family": "Kuizu-UserMicro-TaskDefinition",
     "executionRoleArn": "arn:aws:iam::124702891638:role/ecsTaskExecutionRole",
     "networkMode": "bridge",
-    "revision": 1,
     "volumes": [],
-    "status": "ACTIVE",
-    "requiresAttributes": [
-        {
-            "name": "com.amazonaws.ecs.capability.ecr-auth"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
-        },
-        {
-            "name": "ecs.capability.execution-role-ecr-pull"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-        }
-    ],
     "placementConstraints": [],
-    "compatibilities": [
-        "EXTERNAL",
-        "EC2"
-    ],
     "requiresCompatibilities": [
         "EC2"
     ],
@@ -64,8 +43,6 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2022-11-23T15:55:45.587Z",
-    "registeredBy": "arn:aws:iam::124702891638:root",
     "tags": [
         {
             "key": "ecs:taskDefinition:createdFrom",
