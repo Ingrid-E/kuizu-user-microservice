@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:124702891638:task-definition/Kuizu-User-TaskDefinition2:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:124702891638:task-definition/Kuizu-UserMicro-TaskDefinition:1",
     "containerDefinitions": [
         {
             "name": "kuizu-users-microservice",
@@ -30,7 +30,7 @@
             "systemControls": []
         }
     ],
-    "family": "Kuizu-User-TaskDefinition2",
+    "family": "Kuizu-UserMicro-TaskDefinition",
     "executionRoleArn": "arn:aws:iam::124702891638:role/ecsTaskExecutionRole",
     "networkMode": "bridge",
     "revision": 1,
@@ -58,13 +58,13 @@
     "requiresCompatibilities": [
         "EC2"
     ],
-    "cpu": "256",
-    "memory": "512",
+    "cpu": "512",
+    "memory": "1024",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2022-11-22T16:35:51.730Z",
+    "registeredAt": "2022-11-23T15:55:45.587Z",
     "registeredBy": "arn:aws:iam::124702891638:root",
     "tags": [
         {
@@ -73,7 +73,7 @@
         },
         {
             "key": "ecs:taskDefinition:stackId",
-            "value": "arn:aws:cloudformation:us-east-1:124702891638:stack/ECS-Console-V2-TaskDefinition-8624d56c-6f78-43a7-9111-883ea9aac00a/b6d42590-6a83-11ed-ad20-0e7978bf37f7"
+            "value": "arn:aws:cloudformation:us-east-1:124702891638:stack/ECS-Console-V2-TaskDefinition-89a72e3a-c00e-4b95-95d2-3f4882947b83/47065200-6b47-11ed-b965-0a04834ce66d"
         }
     ]
 }
