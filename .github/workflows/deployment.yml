@@ -16,7 +16,7 @@ permissions:
   contents: read
 jobs:
   build:
-    name: Build
+    name: Build 🔨
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -29,14 +29,14 @@ jobs:
     - run: npm run build --if-present
   test:
     needs: [build]
-    name: test
+    name: Test 📝
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - run: npm test
   deploy:
     needs: [build, test]
-    name: Deploy
+    name: Deploy 🚀
     runs-on: ubuntu-latest
     environment: production
 
