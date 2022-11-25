@@ -27,7 +27,6 @@ app.use('/admin', adminRouter);
 app.use('/teacher', teacherRouter);
 app.use('/student', studentRouter);
 
-
 db.authenticate()
 .then(()=>{
     console.log('Connection has been established successfully.');
