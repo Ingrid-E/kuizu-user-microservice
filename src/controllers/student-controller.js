@@ -7,27 +7,27 @@ module.exports = {
             const student = await Student.create({
                 id_user: id_user
             })
-            return res.status(200).json({ success: true, student: JSON.stringify(student, null, 2) });
+            return res.status(201).json({ success: true, student: JSON.stringify(student, null, 2) });
         } catch (err) {
-            return res.status(404).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to create a new student" });
 
         }
     },
     get_all: async function (req,res){
         try{
             const student = await Student.findAll()
-            return res.status(200).json({ success: true, student: JSON.stringify(student, null, 2) });
+            return res.status(201).json({ success: true, student: JSON.stringify(student, null, 2) });
         }catch (err){
-            return res.status(404).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to get all students" });
         }
     },
     get_one: async function (req,res){
         try{
             const {id_student} = req.params;
             const student = await Student.findByPk(id_student);
-              return res.status(200).json({ success: true, student: JSON.stringify(student, null, 2) });
+              return res.status(201).json({ success: true, student: JSON.stringify(student, null, 2) });
         }catch (err){
-            return res.status(404).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to get the student" });
         }
 
     },
@@ -39,9 +39,9 @@ module.exports = {
                     id_student: id_student
                 }
             })
-            return res.status(200).json({ success: true, student: JSON.stringify(destroy, null, 2) });
+            return res.status(201).json({ success: true, student: JSON.stringify(destroy, null, 2) });
         } catch (err) {
-            return res.status(404).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to delete the student" });
         }
     },
     put_one: async function (req, res) {
@@ -57,7 +57,7 @@ module.exports = {
             });
             return res.status(201).json({ success: true, teacher: JSON.stringify(update, null, 2) });
         } catch (error) {
-            return res.status(500).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to update the student" });
         }
     }
 }

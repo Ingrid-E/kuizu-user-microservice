@@ -34,7 +34,7 @@ module.exports = {
             if(mistake){
                 return res.status(500).json({ success: false, error: err, message: "Request failed"});
             }else{
-                return res.status(404).json({ success: false, error: err, message: "The teacher does not exist" });
+                return res.status(404).json({ success: false, error: err, message: "It was not possible to get all admins" });
             }
         }
     },

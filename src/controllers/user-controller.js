@@ -13,7 +13,7 @@ module.exports = {
             })
             return res.status(201).json({ success: true, user: JSON.stringify(user, null, 2) });
         } catch (err) {
-            return res.status(500).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to create a user" });
 
         }
     },
@@ -22,7 +22,7 @@ module.exports = {
             const users = await User.findAll()
             return res.status(201).json({ success: true, user: JSON.stringify(users, null, 2) });
         } catch (err) {
-            return res.status(500).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to get all users" });
         }
     },
     get_one: async function (req, res) {
@@ -31,7 +31,7 @@ module.exports = {
             const admin = await User.findByPk(id_user)
             return res.status(201).json({ success: true, user: JSON.stringify(admin, null, 2) });
         } catch (err) {
-            return res.status(500).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to get the user" });
         }
 
     },
@@ -45,7 +45,7 @@ module.exports = {
             })
             return res.status(201).json({ success: true, user: JSON.stringify(destroy, null, 2) });
         } catch (err) {
-            return res.status(500).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to delete the user" });
         }
     },
     put_one: async function (req, res) {
@@ -65,7 +65,7 @@ module.exports = {
             });
             return res.status(201).json({ success: true, teacher: JSON.stringify(update, null, 2) });
         } catch (error) {
-            return res.status(500).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err, message: "It was not possible to upgrade the user" });
         }
     }
 }
