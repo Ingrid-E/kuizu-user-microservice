@@ -6,5 +6,6 @@ router.post('/', student_controller.create_post);
 router.get('/', student_controller.get_all);
 router.get('/:id_student', student_controller.get_one);
 router.delete('/:id_student', student_controller.delete_one);
+router.put('/:id_student',student_controller.put_one);
 
 module.exports = router;

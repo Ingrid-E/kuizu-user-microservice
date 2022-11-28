@@ -1,4 +1,4 @@
-const {User} = require('../models/index')
+const { User } = require('../models/index')
 
 module.exports = {
     create_post: async function (req, res) {
@@ -11,33 +11,27 @@ module.exports = {
                 imgurl: imgurl,
                 lastlogin: lastlogin
             })
-            return res.status(200).json({ success: true, user: JSON.stringify(user, null, 2) });
+            return res.status(201).json({ success: true, user: JSON.stringify(user, null, 2) });
         } catch (err) {
-            return res.status(404).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err });
 
         }
     },
-    get_all: async function (req,res){
-        try{
+    get_all: async function (req, res) {
+        try {
             const users = await User.findAll()
-            return res.status(200).json({ success: true, user: JSON.stringify(users, null, 2) });
-        }catch (err){
-            return res.status(404).json({ success: false, error: err });
+            return res.status(201).json({ success: true, user: JSON.stringify(users, null, 2) });
+        } catch (err) {
+            return res.status(500).json({ success: false, error: err });
         }
     },
-    get_one: async function (req,res){
-        try{
-            const {id_user} = req.params;
-            const admin = await User.findAll({
-                attributes: ['firstname', 'lastname','imgurl','lastlogin','email'],
-                where: {
-                  id_user: id_user
-                }
-              })
-              console.log("hi",id_user)
-              return res.status(200).json({ success: true, user: JSON.stringify(admin, null, 2) });
-        }catch (err){
-            return res.status(404).json({ success: false, error: err });
+    get_one: async function (req, res) {
+        try {
+            const { id_user } = req.params;
+            const admin = await User.findByPk(id_user)
+            return res.status(201).json({ success: true, user: JSON.stringify(admin, null, 2) });
+        } catch (err) {
+            return res.status(500).json({ success: false, error: err });
         }
 
     },
@@ -49,9 +43,29 @@ module.exports = {
                     id_user: id_user
                 }
             })
-            return res.status(200).json({ success: true, user: JSON.stringify(destroy, null, 2) });
+            return res.status(201).json({ success: true, user: JSON.stringify(destroy, null, 2) });
         } catch (err) {
-            return res.status(404).json({ success: false, error: err });
+            return res.status(500).json({ success: false, error: err });
+        }
+    },
+    put_one: async function (req, res) {
+        try {
+            const { id_user } = req.params;
+            const { firstname, lastname, imgurl, lastlogin, email } = req.body;
+            const update = await Admin.update({
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                imgurl: imgurl,
+                lastlogin: lastlogin
+            }, {
+                where: {
+                    id_user: id_user
+                }
+            });
+            return res.status(201).json({ success: true, teacher: JSON.stringify(update, null, 2) });
+        } catch (error) {
+            return res.status(500).json({ success: false, error: err });
         }
     }
 }
