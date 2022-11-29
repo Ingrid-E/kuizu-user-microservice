@@ -67,13 +67,13 @@ jobs:
     - name: Create new ElasticBeanstalk Application Version
       run: |
         aws elasticbeanstalk create-application-version \
-        --application-name KuizuApp \
+        --application-name Kuizuapp-env \
         --source-bundle S3Bucket="kuizu-app-deploy",S3Key="deploy_package.zip" \
         --version-label "ver-${{ github.sha }}" \
         --description "commit-sha-${{ github.sha }}"
 
     - name: Deploy new ElasticBeanstalk Application Version
-      run: aws elasticbeanstalk update-environment --environment-name KuizuApp-env-1 --version-label "ver-${{ github.sha }}"
+      run: aws elasticbeanstalk update-environment --environment-name Kuizuapp-env-1 --version-label "ver-${{ github.sha }}"
         
     - name: Google Chat Notification
       uses: Co-qn/google-chat-notification@releases/v1
