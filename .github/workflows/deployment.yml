@@ -73,7 +73,7 @@ jobs:
         --description "commit-sha-${{ github.sha }}"
 
     - name: Deploy new ElasticBeanstalk Application Version
-      run: aws elasticbeanstalk update-environment --environment-name Kuizuapp-env --version-label "ver-${{ github.sha }}"
+      run: aws elasticbeanstalk update-environment --environment-name Kuizuapp-user --version-label "ver-${{ github.sha }}"
         
     - name: Google Chat Notification
       uses: Co-qn/google-chat-notification@releases/v1
