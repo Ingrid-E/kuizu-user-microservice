@@ -50,6 +50,9 @@ jobs:
         url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
         status: ${{ job.status }}
       if: always()
+      
+    - name: Create ZIP deployment package
+      run: zip -r deploy_package.zip ./
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -57,45 +60,21 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
-      id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
+        
+    - name: Upload package to S3 bucket
+      run: aws s3 cp deploy_package.zip s3://kuizu-app-deploy/
+    
+    - name: Create new ElasticBeanstalk Application Version
       run: |
-        # Build a docker container and
-        # push it to ECR so that it can
-        # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        aws elasticbeanstalk create-application-version \
+        --application-name KuizuApp \
+        --source-bundle S3Bucket="kuizu-app-deploy",S3Key="deploy_package.zip" \
+        --version-label "ver-${{ github.sha }}" \
+        --description "commit-sha-${{ github.sha }}"
 
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: ${{ env.ECS_TASK_DEFINITION }}
-        container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.build-image.outputs.image }}
-        environment-variables: |
-            PG_PASSWORD=${{ secrets.PG_PASSWORD }}
-            PG_DATABASE=${{ secrets.PG_DATABASE }}
-            PG_PORT=${{ secrets.PG_PORT }}
-            PG_USER=${{ secrets.PG_USER }}
-            PG_HOST=${{ secrets.PG_HOST }}
-            PORT=${{ secrets.PORT }}
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER }}
-        wait-for-service-stability: true
+    - name: Deploy new ElasticBeanstalk Application Version
+      run: aws elasticbeanstalk update-environment --environment-name KuizuApp-env-1 --version-label "ver-${{ github.sha }}"
+        
     - name: Google Chat Notification
       uses: Co-qn/google-chat-notification@releases/v1
       with:
