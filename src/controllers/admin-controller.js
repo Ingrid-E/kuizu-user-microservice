@@ -18,7 +18,7 @@ module.exports = {
             if(admin.length === 0){
                 return res.status(404).json({success: false, data: {title: "Admins not found"}})
             }
-            return res.status(200).json({ success: true, data: {count: admin.length, users}});
+            return res.status(200).json({ success: true, data: {count: admin.length, admin}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }

@@ -60,7 +60,7 @@ module.exports = {
         try {
             const { id_user } = req.params;
             const { firstname, lastname, imgurl, lastlogin, email } = req.body;
-            const user = await Admin.update({
+            const user = await User.update({
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
