@@ -13,7 +13,7 @@ var sequelize = require('./src/configs/sequelize-conf')
 var app = express();
 const db = require('./src/configs/sequelize-conf')
 var cors = require('cors')
-const pkg = require("../package.json")
+const pkg = require("./package.json")
 
 
 app.use(bodyParser.json());
