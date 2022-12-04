@@ -13,6 +13,7 @@ var sequelize = require('./src/configs/sequelize-conf')
 var app = express();
 const db = require('./src/configs/sequelize-conf')
 var cors = require('cors')
+const pkg = require("../package.json")
 
 
 app.use(bodyParser.json());
@@ -24,6 +25,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
+
+app.get("/", (req, res) => {
+    res.json({
+        name: pkg.name,
+        version: pkg.version
+    })
+})
 
 app.use('/user', usersRouter);
 app.use('/admin', adminRouter);
