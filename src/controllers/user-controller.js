@@ -1,19 +1,26 @@
 const { User } = require('../models/index')
+const {OAuth2Client} = require('google-auth-library')
+const client = new OAuth2Client(process.env.CLIENT_ID)
 
 module.exports = {
     create_post: async function (req, res) {
         try {
-            const { firstname, lastname, imgurl, lastlogin, email } = req.body
-            const user = await User.create({
-                firstname: firstname,
-                lastname: lastname,
-                email: email,
-                imgurl: imgurl,
-                lastlogin: lastlogin
+            const {token} = req.body
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: process.env.CLIENT_ID
             })
-            return res.status(201).json({ success: true, user: JSON.stringify(user, null, 2) });
+            const {given_name, family_name, email, picture} = ticket.getPayload()
+            const user = await User.create({
+                firstname: given_name,
+                lastname: family_name,
+                email: email,
+                imgurl: picture,
+                lastlogin: Date.now()
+            })
+            return res.status(201).json({ success: true, data: {user}});
         } catch (err) {
-            return res.status(500).json({ success: false, error: err, message: "It was not possible to create a user" });
+            return res.status(500).json({ success: false, error: err.message, message: "It was not possible to create a user" });
 
         }
     },
