@@ -7,9 +7,13 @@ var logger = require('morgan');
 var bodyParser = require('body-parser')
 var usersRouter = require('./src/routes/users');
 var adminRouter = require('./src/routes/admins');
+var teacherRouter = require('./src/routes/teachers');
+var studentRouter = require('./src/routes/students');
 var sequelize = require('./src/configs/sequelize-conf')
 var app = express();
 const db = require('./src/configs/sequelize-conf')
+var cors = require('cors')
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,9 +23,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors())
 
-app.use('/', usersRouter);
+app.use('/user', usersRouter);
 app.use('/admin', adminRouter);
+app.use('/teacher', teacherRouter);
+app.use('/student', studentRouter);
 
 db.authenticate()
 .then(()=>{
