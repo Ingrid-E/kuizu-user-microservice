@@ -19,47 +19,59 @@ module.exports = {
                 lastlogin: Date.now()
             })
             return res.status(201).json({ success: true, data: {user}});
+            return res.status(201).json({ success: true, data: {title: "User created!", id_user: user.id_user}});
         } catch (err) {
             return res.status(500).json({ success: false, error: err.message, message: "It was not possible to create a user" });
 
+        }
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     get_all: async function (req, res) {
         try {
             const users = await User.findAll()
-            return res.status(201).json({ success: true, user: JSON.stringify(users, null, 2) });
+            if(users.length === 0){
+                return res.status(404).json({success: false, data: {title: "User not found"}})
+            }
+            return res.status(200).json({ success: true, data: {count: users.length, users}});
         } catch (err) {
-            return res.status(500).json({ success: false, error: err, message: "It was not possible to get all users" });
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     get_one: async function (req, res) {
         try {
             const { id_user } = req.params;
-            const admin = await User.findByPk(id_user)
-            return res.status(201).json({ success: true, user: JSON.stringify(admin, null, 2) });
+            const user = await User.findByPk(id_user)
+            if(user === null){
+                return res.status(404).json({success: false, data: {title: "User not found"}})
+            }
+            return res.status(200).json({ success: true, data: {user}});
         } catch (err) {
-            return res.status(500).json({ success: false, error: err, message: "It was not possible to get the user" });
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}})
         }
 
     },
     delete_one: async function (req, res) {
         try {
             const { id_user } = req.params
-            const destroy = await User.destroy({
+            const user = await User.destroy({
                 where: {
                     id_user: id_user
                 }
             })
-            return res.status(201).json({ success: true, user: JSON.stringify(destroy, null, 2) });
+            if(user === 0){
+                return res.status(404).json({success: false, data: {title: "User not found"}})
+            }
+            return res.status(200).json({ success: true, data: {title: "User deleted"}});
         } catch (err) {
-            return res.status(500).json({ success: false, error: err, message: "It was not possible to delete the user" });
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     put_one: async function (req, res) {
         try {
             const { id_user } = req.params;
             const { firstname, lastname, imgurl, lastlogin, email } = req.body;
-            const update = await Admin.update({
+            const user = await User.update({
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
@@ -70,9 +82,12 @@ module.exports = {
                     id_user: id_user
                 }
             });
-            return res.status(201).json({ success: true, teacher: JSON.stringify(update, null, 2) });
-        } catch (error) {
-            return res.status(500).json({ success: false, error: err, message: "It was not possible to upgrade the user" });
+            if(user[0] === 0){
+                return res.status(404).json({success: false, data: {title: "User not found"}})
+            }
+            return res.status(200).json({ success: true, data: {title: "User updated"}});
+        } catch (err) {
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     }
 }

@@ -9,7 +9,7 @@ module.exports = {
             })
             return res.status(201).json({ success: true, data: {title: "Teacher created!", id_teacher: teacher.id_teacher}});
         } catch (err) {
-            return res.status(500).json({ success: false, data: {title: "Interal Server error", error: err.message}});
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     get_all: async function (req, res) {
@@ -20,7 +20,7 @@ module.exports = {
             }
             return res.status(200).json({ success: true, data: {count: teachers.length, teachers}});
         } catch (err) {
-            return res.status(500).json({ success: false, data: {title: "Interal Server error", error: err.message}});
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     get_one: async function (req, res) {
@@ -32,7 +32,7 @@ module.exports = {
             }
             return res.status(200).json({ success: true, data: {teacher}});
         } catch (err) {
-            return res.status(500).json({ success: false, data: {title: "Interal Server error", error: err.message}});
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
 
     },
@@ -49,7 +49,7 @@ module.exports = {
             }
             return res.status(200).json({ success: true, data: {title: "Teacher deleted"}});
         } catch (err) {
-            return res.status(500).json({ success: false, data: {title: "Interal Server error", error: err.message}});
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     put_one: async function (req, res) {
@@ -68,7 +68,7 @@ module.exports = {
             }
             return res.status(200).json({ success: true, data: {title: "Teacher updated"}});
         } catch (error) {
-            return res.status(500).json({ success: false, data: {title: "Interal Server error", error: err.message}});
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     }
 }
