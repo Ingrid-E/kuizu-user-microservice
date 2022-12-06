@@ -18,7 +18,7 @@ module.exports = {
                 imgurl: picture,
                 lastlogin: Date.now()
             })
-            return res.status(201).json({ success: true, data: {title: "User created!", id_user: user}});
+            return res.status(201).json({ success: true, data: {title: "User created!", user}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
