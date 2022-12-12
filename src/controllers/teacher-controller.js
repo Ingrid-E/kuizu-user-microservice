@@ -4,10 +4,24 @@ module.exports = {
     create_post: async function (req, res) {
         try {
             const { id_user } = req.body
-            const teacher = await Teacher.create({
-                id_user: id_user
-            })
-            return res.status(201).json({ success: true, data: {title: "Teacher created!", id_teacher: teacher.id_teacher}});
+
+            const id_user_dir = await Teacher.findAll({
+                where: {
+                  id_user: id_user
+                }
+              })
+
+            if(id_user_dir.length===0){
+                const teacher = await Teacher.create({
+                    id_user: id_user
+                })
+                return res.status(201).json({ success: true, data: {title: "Teacher created!", id_teacher: teacher.id_teacher}});
+            }
+            
+            else{
+                return res.status(200).json({ success: true, data: {title: "Teacher updated"}});
+            }
+
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
