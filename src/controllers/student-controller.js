@@ -4,25 +4,13 @@ module.exports = {
     create_post: async function (req, res) {
         try {
             const { id_user } = req.body
-
-            const id_user_dir = await Student.findAll({
-                where: {
-                  id_user: id_user
-                }
-              })
-              
-            if(id_user_dir.length===0){
-                const student = await Student.create({
-                    id_user: id_user
-                })
-                return res.status(201).json({ success: true, data: {title: "Student created!", id_student: student.id_student}});
-            }
-            else{
-                return res.status(200).json({ success: true, data: {title: "Student updated"}});
-            }
-            
+            const student = await Student.create({
+                id_user: id_user
+            })
+            return res.status(201).json({ success: true, data: {title: "Student created!", id_student: student.id_student}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
+
         }
     },
     get_all: async function (req,res){

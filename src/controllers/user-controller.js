@@ -1,32 +1,24 @@
 const { User } = require('../models/index')
+const {OAuth2Client} = require('google-auth-library')
+const client = new OAuth2Client(process.env.CLIENT_ID)
 
 module.exports = {
     create_post: async function (req, res) {
         try {
-
-            const { firstname, lastname, imgurl, lastlogin, email } = req.body
-
-            const email_dir = await User.findAll({
-                where: {
-                  email: email
-                }
-              })
-
-              if(email_dir.length===0){
-                const user = await User.create({
-                    firstname: firstname,
-                    lastname: lastname,
-                    email: email,
-                    imgurl: imgurl,
-                    lastlogin: lastlogin
-                })
-    
-                return res.status(201).json({ success: true, data: {title: "User created!", id_user: user.id_user}});
-              }
-              else{
-                return res.status(200).json({ success: true, data: {title: "User updated"}});
-              }
-              
+            const {token} = req.body
+            const ticket = await client.verifyIdToken({
+                idToken: token,
+                audience: process.env.CLIENT_ID
+            })
+            const {given_name, family_name, email, picture} = ticket.getPayload()
+            const user = await User.create({
+                firstname: given_name,
+                lastname: family_name,
+                email: email,
+                imgurl: picture,
+                lastlogin: Date.now()
+            })
+            return res.status(201).json({ success: true, data: {title: "User created!", user}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
@@ -34,12 +26,9 @@ module.exports = {
     get_all: async function (req, res) {
         try {
             const users = await User.findAll()
-
             if(users.length === 0){
                 return res.status(404).json({success: false, data: {title: "User not found"}})
             }
-
-
             return res.status(200).json({ success: true, data: {count: users.length, users}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
