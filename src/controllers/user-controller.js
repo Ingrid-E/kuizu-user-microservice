@@ -28,7 +28,7 @@ module.exports = {
                 })
                 return res.status(201).json({ success: true, data: { title: "User created!", user } });
             }else{
-                return res.status(200).json({ success: true, data: { title: "User updated" } });
+                return res.status(200).json({ success: true, data: { title: "User with this email exists yet" } });
             }
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
