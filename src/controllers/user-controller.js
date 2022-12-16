@@ -1,11 +1,11 @@
 const { User } = require('../models/index')
-const { OAuth2Client } = require('google-auth-library')
+const {OAuth2Client} = require('google-auth-library')
 const client = new OAuth2Client(process.env.CLIENT_ID)
 
 module.exports = {
     create_post: async function (req, res) {
         try {
-            const { token } = req.body
+            const {token} = req.body
             const ticket = await client.verifyIdToken({
                 idToken: token,
                 audience: process.env.CLIENT_ID
@@ -31,7 +31,7 @@ module.exports = {
                 return res.status(200).json({ success: true, data: { title: "User updated" } });
             }
         } catch (err) {
-            return res.status(500).json({ success: false, data: { title: "Internal Server error", error: err.message } });
+            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
     },
     get_all: async function (req, res) {
