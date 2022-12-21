@@ -1,24 +1,24 @@
 const { User } = require('../models/index')
-const {OAuth2Client} = require('google-auth-library')
+const { OAuth2Client } = require('google-auth-library')
 const client = new OAuth2Client(process.env.CLIENT_ID)
 
 module.exports = {
     create_post: async function (req, res) {
         try {
-            const {token} = req.body
+            const { token } = req.body
             const ticket = await client.verifyIdToken({
                 idToken: token,
                 audience: process.env.CLIENT_ID
             })
             const { given_name, family_name, email, picture } = ticket.getPayload()
 
-            const email_dir = await User.findAll({
+            const email_dir = await User.findOne({
                 where: {
                     email: email
                 }
             })
 
-            if (email_dir.length === 0) {
+            if (email_dir === null) {
                 const user = await User.create({
                     firstname: given_name,
                     lastname: family_name,
@@ -27,11 +27,22 @@ module.exports = {
                     lastlogin: Date.now()
                 })
                 return res.status(201).json({ success: true, data: { title: "User created!", user } });
-            }else{
-                return res.status(200).json({ success: true, data: { title: "User with this email exists yet" } });
+            } else {
+                const user = await User.update({
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    imgurl: imgurl,
+                    lastlogin: lastlogin
+                }, {
+                    where: {
+                        id_user: id_user
+                    }
+                });
+                return res.status(200).json({ success: true, data: { title: "User updated", user } });
             }
         } catch (err) {
-            return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
+            return res.status(500).json({ success: false, data: { title: "Internal Server error", error: err.message } });
         }
     },
     get_all: async function (req, res) {
