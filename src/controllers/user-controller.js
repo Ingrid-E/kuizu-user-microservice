@@ -32,11 +32,11 @@ module.exports = {
                     firstname: firstname,
                     lastname: lastname,
                     email: email,
-                    imgurl: imgurl,
-                    lastlogin: lastlogin
+                    imgurl: picture,
+                    lastlogin: Date.now()
                 }, {
                     where: {
-                        id_user: id_user
+                        email: email
                     }
                 });
                 return res.status(200).json({ success: true, data: { title: "User updated", user } });
@@ -94,7 +94,7 @@ module.exports = {
                 lastname: lastname,
                 email: email,
                 imgurl: imgurl,
-                lastlogin: lastlogin
+                lastlogin: Date.now()
             }, {
                 where: {
                     id_user: id_user
