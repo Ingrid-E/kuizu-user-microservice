@@ -47,7 +47,7 @@ module.exports = {
             if(admin === 0){
                 return res.status(404).json({success: false, data: {title: "Admin not found"}})
             }
-            return res.status(200).json({ success: true, data: {title: "Admin deleted"}});
+            return res.status(200).json({ success: true, data: {title: "Admin deleted", admin}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
@@ -66,7 +66,7 @@ module.exports = {
             if(admin[0] === 0){
                 return res.status(404).json({success: false, data: {title: "Admin not found"}})
             }
-            return res.status(200).json({ success: true, data: {title: "Admin updated"}});
+            return res.status(200).json({ success: true, data: {title: "Admin updated"}, admin});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }

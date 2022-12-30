@@ -11,9 +11,9 @@ var teacherRouter = require('./src/routes/teachers');
 var studentRouter = require('./src/routes/students');
 var sequelize = require('./src/configs/sequelize-conf')
 var app = express();
-const db = require('./src/configs/sequelize-conf')
-var cors = require('cors')
-const pkg = require("./package.json")
+const db = require('./src/configs/sequelize-conf');
+var cors = require('cors');
+const pkg = require("./package.json");
 
 
 app.use(bodyParser.json());
