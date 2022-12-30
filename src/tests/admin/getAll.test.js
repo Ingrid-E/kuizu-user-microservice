@@ -1,7 +1,7 @@
 const request = require('supertest');
-const app = require('../../app');
+const app = require('../../../app');
 
-const Admin = require('../models/admin-model');
+const Admin = require('../../models/admin-model');
 
 describe('GET /admin', () => {
   
@@ -18,6 +18,7 @@ describe('GET /admin', () => {
       { id_admin: 2, id_user: 1 }
     ]);
   });
+  
   test('should return a specific value when called', async () => {
     
     Admin.findByPk = await jest.fn(() => [{ id_admin: 34, id_user: 65 }])

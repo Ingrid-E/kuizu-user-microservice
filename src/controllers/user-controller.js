@@ -58,7 +58,7 @@ module.exports = {
             if(user === 0){
                 return res.status(404).json({success: false, data: {title: "User not found"}})
             }
-            return res.status(200).json({ success: true, data: {title: "User deleted"}});
+            return res.status(200).json({ success: true, data: {title: "User deleted",user}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }

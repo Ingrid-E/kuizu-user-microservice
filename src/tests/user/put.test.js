@@ -2,21 +2,22 @@ const sinon = require('sinon');
 const request = require('supertest');
 const { expect } = require('chai');
 
-const Admin = require('../../models/admin-model')
+const User = require('../../models/user-model')
 const app = require('../../../app');
 
-describe('PUT /admin/:id', () => {
+describe('PUT /user/:id', () => {
 
     const sandbox = sinon.createSandbox();
-    const updateStub = sandbox.stub(Admin, 'update'); // Admin is your Sequelize model
+    const updateStub = sandbox.stub(User, 'update'); // User is your Sequelize model
 
   it('should update a user', async () => {
     const status = true;
     updateStub.resolves(status);
 
     const res = await request(app)
-      .put('/admin/13')
-      .send({id_user:123})
+      .put('/user/98')
+      .send({firstname: "Bada", lastname: "Bias", email: "badases1998@gmail.com", imgurl: "http://imgurl.ses.kr/1998",
+      lastlogin: "2002-12-24 09:15:00.000"})
       .expect(200);
 
     const {success} = res.body;

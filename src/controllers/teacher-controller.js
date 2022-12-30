@@ -47,7 +47,7 @@ module.exports = {
             if(teacher === 0){
                 return res.status(404).json({success: false, data: {title: "Teacher not found"}})
             }
-            return res.status(200).json({ success: true, data: {title: "Teacher deleted"}});
+            return res.status(200).json({ success: true, data: {title: "Teacher deleted"}, teacher});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }

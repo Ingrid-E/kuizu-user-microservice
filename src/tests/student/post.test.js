@@ -3,21 +3,21 @@ const request = require('supertest');
 const { expect } = require('chai');
 
 const app = require('../../../app');
-const Admin = require('../../models/admin-model');
+const Student = require('../../models/student-model');
 
-describe('POST /admin', () => {
+describe('POST /student', () => {
 
     const sandbox = sinon.createSandbox();
     const server = app.listen();
 
-  it('creates a new user', async () => {
+  test('Creates a new student', async () => {
     // Stub the Sequelize `create` method
-    sandbox.stub(Admin, 'create').resolves({ id_user: 99 });
+    sandbox.stub(Student, 'create').resolves({ id_user: 30 });
 
     // Send a POST request to the route
     const response = await request(server)
-      .post('/admin')
-      .send({ id_user:99 });
+      .post('/student')
+      .send({ id_user:30 });
 
     // Assert that the response is correct
     expect(response.status).to.equal(201);

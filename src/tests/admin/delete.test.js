@@ -1,15 +1,15 @@
 const sinon = require('sinon');
 const request = require('supertest');
 const { expect } = require('chai');
-const Admin = require('../models/admin-model');
+const Admin = require('../../models/admin-model');
 
 describe('DELETE /admin/:id', () => {
 
   const sandbox = sinon.createSandbox();
-  const app = require('../../app'); // your express server
+  const app = require('../../../app'); // your express server
   const deleteStub = sandbox.stub(Admin, 'destroy'); // put your Sequelize model
 
-  it('should delete a user', async () => {
+  it('should delete an admin', async () => {
     const testAdmin = { id_admin: 33, id_user: 72 };
     deleteStub.resolves(testAdmin);
 
