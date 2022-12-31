@@ -1,11 +1,11 @@
 const request = require('supertest');
-const app = require('../../../app');
+const app = require('../../app');
+const sinon = require('sinon');
+const User = require('../models/user-model');
 
-const User = require('../../models/user-model');
+describe('Users', () => {
 
-describe('GET /user', () => {
-
-  test('should return all of users', async () => {
+  test('GET /user', async () => {
     // Mock the findAll method of the User model to return a predetermined set of users
     User.findAll = await jest.fn(() => [{
       id_user: 18, firstname: "Goten", lastname: "Saya", email: "gotenks@gmail.com",
@@ -30,7 +30,7 @@ describe('GET /user', () => {
     ]);
   });
 
-  test('should return a specific value when called', async () => {
+  test('GET /user/:id_user/', async () => {
 
     User.findByPk = await jest.fn(() => [{
       id_user: 74, firstname: "Eugene", lastname: "Kitaeyoung", email: "eugeneses1998@gmail.com",
@@ -43,5 +43,43 @@ describe('GET /user', () => {
       imgurl: "http://imgurl.ses.kr/1998", lastlogin: "2002-12-24 09:15:00.000"
     }]);
   });
-});
 
+  test('DELETE /user/:id_user/', async () => {
+    const sandbox = sinon.createSandbox();
+    const deleteStub = sandbox.stub(User, 'destroy');
+
+    const testUser = { id_user:8, firstname:"Crilin", lastname:"Calvo", email:"calvito@gmail.com", imgurl:"http://imgurl.org.py", lastlogin: "2018-04-12 04:15:00.000"};
+    deleteStub.resolves(testUser);
+
+    const res = await request(app)
+      .delete('/user/'+testUser.id_user)
+      .expect(200);
+
+    const {data:{user}} = res.body;
+    expect(user).toEqual(testUser); 
+
+    sandbox.restore();
+  });
+
+  test('PUT /user/:id_user', async () => {
+
+    const sandbox = sinon.createSandbox();
+    const updateStub = sandbox.stub(User, 'update');
+    
+    const status = true;
+    updateStub.resolves(status);
+
+    const res = await request(app)
+      .put('/user/98')
+      .send({firstname: "Bada", lastname: "Bias", email: "badases1998@gmail.com", imgurl: "http://imgurl.ses.kr/1998",
+      lastlogin: "2002-12-24 09:15:00.000"})
+      .expect(200);
+
+    const {success} = res.body;
+    expect(success).toEqual(status);
+
+    sandbox.restore();
+    
+  });
+
+});

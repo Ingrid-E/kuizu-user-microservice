@@ -41,10 +41,11 @@ build/Release
 node_modules/
 jspm_packages/
 
-src/tests/admin/admin.test.js.txt
-src/tests/student/student.test.js.txt
-src/tests/teacher/teacher.test.js.txt
-src/tests/user/user.test.js.txt
+src/tests/admin
+src/tests/student
+src/tests/teacher
+src/tests/user
+
 
 # TypeScript v1 declaration files
 typings/
