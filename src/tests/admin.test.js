@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../../app');
 const sinon = require('sinon');
+const nock = require('nock');
 const Admin = require('../models/admin-model');
 
 describe('Admin', () => {
@@ -67,24 +68,23 @@ describe('Admin', () => {
     
   });
 
-    /*test('POST /admin/', async () => {
-    const sandbox = sinon.createSandbox();
-    const server = app.listen();
-    // Stub the Sequelize `create` method
-    sandbox.stub(Admin, 'create').resolves({ id_user: 47 });
+  /*test('POST /admin/', async () => {
+    // Set up the fake response that will be returned by the mock API endpoint
+    const response = {
+      id_user: 452
+    };
+    nock('http://localhost:3000')
+      .post('/user')
+      .reply(201, response);
 
-    // Send a POST request to the route
-    const response = await request(server)
-      .post('/admin')
-      .send({ id_user:47 });
+    // Send a POST request to the route being tested
+    const res = await request(app).post('/user').send({
+      id_user:452
+    });
 
-    // Assert that the response is correct
-    expect(response.status).toEqual(201);
-
-    sandbox.restore();
-    server.close();
-
+    // Verify that the response has the expected status code and body
+    expect(res.statusCode).toBe(201);
+    expect(res.body).toEqual(response);
   });*/
-
 
 });
