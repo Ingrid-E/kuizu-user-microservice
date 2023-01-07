@@ -5,7 +5,7 @@
   "main": "./bin/www",
   "scripts": {
     "start": "node ./src/bin/www",
-    "test": ""
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
@@ -24,6 +24,14 @@
     "sequelize": "^6.25.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "chai": "^4.3.7",
+    "eslint-plugin-jest": "^27.1.6",
+    "jest": "^29.3.1",
+    "nock": "^13.2.9",
+    "nodemon": "^2.0.20",
+    "sequelize-mock": "^0.10.2",
+    "sinon": "^15.0.1",
+    "sinon-express-mock": "^2.2.1",
+    "supertest": "^6.3.3"
   }
 }

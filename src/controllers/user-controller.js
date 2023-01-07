@@ -28,10 +28,9 @@ module.exports = {
                 })
                 return res.status(201).json({ success: true, data: { title: "User created!", user } });
             } else {
-
                 const user = await User.update({
-                    firstname: given_name,
-                    lastname: family_name,
+                    firstname: firstname,
+                    lastname: lastname,
                     email: email,
                     imgurl: picture,
                     lastlogin: Date.now()

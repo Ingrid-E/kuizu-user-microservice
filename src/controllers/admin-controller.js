@@ -4,10 +4,23 @@ module.exports = {
     create_post: async function (req, res) {
         try {
             const { id_user } = req.body
+
+            const id_user_dir = await Admin.findOne({
+                where: {
+                    id_user: id_user
+                }
+            })
+
+            if(id_user_dir === null){
             const admin = await Admin.create({
                 id_user: id_user
             })
             return res.status(201).json({ success: true, data: {title: "Admin created!", id_admin: admin.id_admin}});
+            }else{
+                const { dataValues: { id_admin } } = id_user_dir;
+                return res.status(200).json({ success: true, data: { title: "Admin Found", id_admin: id_admin } });
+            }
+
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
@@ -47,7 +60,7 @@ module.exports = {
             if(admin === 0){
                 return res.status(404).json({success: false, data: {title: "Admin not found"}})
             }
-            return res.status(200).json({ success: true, data: {title: "Admin deleted"}});
+            return res.status(200).json({ success: true, data: {title: "Admin deleted", admin}});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
@@ -66,7 +79,7 @@ module.exports = {
             if(admin[0] === 0){
                 return res.status(404).json({success: false, data: {title: "Admin not found"}})
             }
-            return res.status(200).json({ success: true, data: {title: "Admin updated"}});
+            return res.status(200).json({ success: true, data: {title: "Admin updated"}, admin});
         } catch (err) {
             return res.status(500).json({ success: false, data: {title: "Internal Server error", error: err.message}});
         }
