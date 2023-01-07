@@ -36,8 +36,7 @@ module.exports = {
                     lastlogin: Date.now()
                 }, {
                     where: {
-                        email: email,
-                        returning: true
+                        email: email
                     }
                 });
 
