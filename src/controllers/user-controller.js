@@ -40,7 +40,7 @@ module.exports = {
                     }
                 });
 
-                const user = await User.findByPk(update_user.id_user)
+                const user = await User.findByPk(update_user[0])
 
                 return res.status(200).json({ success: true, data: { title: "User updated", user: user } });
             }
