@@ -41,6 +41,12 @@ build/Release
 node_modules/
 jspm_packages/
 
+src/tests/admin
+src/tests/student
+src/tests/teacher
+src/tests/user
+
+
 # TypeScript v1 declaration files
 typings/
 
