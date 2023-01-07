@@ -32,5 +32,7 @@ jobs:
     name: Test 📝
     runs-on: ubuntu-latest
     steps:
+    - env:
+        NODE_ENV: test
     - uses: actions/checkout@v3
     - run: npm test
