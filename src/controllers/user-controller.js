@@ -36,10 +36,11 @@ module.exports = {
                     lastlogin: Date.now()
                 }, {
                     where: {
-                        email: email
+                        email: email,
+                        returning: true
                     }
                 });
-                return res.status(200).json({ success: true, data: { title: "User updated", user } });
+                return res.status(200).json({ success: true, data: { title: "User updated", user: user } });
             }
         } catch (err) {
             return res.status(500).json({ success: false, data: { title: "Internal Server error", error: err.message } });
