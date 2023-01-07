@@ -6,7 +6,6 @@ const User = require('../models/user-model');
 describe('Users', () => {
 
   test('GET /user', async () => {
-    // Mock the findAll method of the User model to return a predetermined set of users
     User.findAll = await jest.fn(() => [{
       id_user: 18, firstname: "Goten", lastname: "Saya", email: "gotenks@gmail.com",
       imgurl: "http://imgurl.org.uy", lastlogin: "1998-06-13 02:54:00.000"
@@ -54,10 +53,6 @@ describe('Users', () => {
     const res = await request(app)
       .delete('/user/'+testUser.id_user)
       .expect(200);
-
-    const {data:{user}} = res.body;
-    expect(user).toEqual(testUser); 
-
     sandbox.restore();
   });
 

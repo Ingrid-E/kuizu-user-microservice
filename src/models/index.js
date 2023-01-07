@@ -12,8 +12,5 @@ Teacher.belongsTo(User, {foreignKey: 'id_user'});
 Admin.belongsTo(User, {foreignKey: 'id_user'});
 Student.belongsTo(User, {foreignKey: 'id_user'});
 
-sequelize.sync({force: false}).then(function () {
-    console.log("Database Configured");
-});
 
 module.exports = {User, Teacher, Admin, Student};
