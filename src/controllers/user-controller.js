@@ -28,7 +28,7 @@ module.exports = {
                 })
                 return res.status(201).json({ success: true, data: { title: "User created!", user } });
             } else {
-                const user = await User.update({
+                const update_user = await User.update({
                     firstname: given_name,
                     lastname: family_name,
                     email: email,
@@ -40,6 +40,9 @@ module.exports = {
                         returning: true
                     }
                 });
+
+                const user = await User.findByPk(update_user.id_user)
+
                 return res.status(200).json({ success: true, data: { title: "User updated", user: user } });
             }
         } catch (err) {
