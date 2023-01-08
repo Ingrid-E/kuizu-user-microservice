@@ -39,9 +39,11 @@ module.exports = {
                         email: email
                     }
                 });
-
-                const user = await User.findByPk(update_user[0])
-
+                const user = await User.findOne({
+                    where: {
+                        email: email
+                    }
+                })
                 return res.status(200).json({ success: true, data: { title: "User updated", user: user } });
             }
         } catch (err) {
