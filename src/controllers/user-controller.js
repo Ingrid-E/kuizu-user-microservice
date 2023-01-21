@@ -1,6 +1,44 @@
 const { User } = require('../models/index')
 const { OAuth2Client } = require('google-auth-library')
 const client = new OAuth2Client(process.env.CLIENT_ID)
+const AWS = require('aws-sdk');
+const request = require('request');
+const { resolve } = require('path');
+const { reject } = require('lodash');
+
+
+AWS.config.update({
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: process.env.S3_BUCKET_REGION
+});
+
+const s3 = new AWS.S3();
+
+
+
+const uploadImage = async (email, google_url)=>{
+    return new Promise((resolve, reject)=>{
+        request.get({url: google_url, encoding: null},  (err, response, body)=>{
+            
+            const buffer = new Buffer.from(body, 'binary');
+            const params = {
+                Bucket: process.env.S3_BUCKET_NAME,
+                Key: `users/${email}`,
+                Body: buffer,
+                ContentType: response.headers['content-type'],
+                ACL: "public-read"
+            };
+    
+            s3.upload(params, (err, data)=>{
+                if(err){
+                    return reject(err)
+                }
+                return resolve(data.Location)
+            })
+        })
+    })
+}
 
 module.exports = {
     create_post: async function (req, res) {
@@ -11,7 +49,9 @@ module.exports = {
                 audience: process.env.CLIENT_ID
             })
             const { given_name, family_name, email, picture } = ticket.getPayload()
-
+            
+            const imgS3URL = await uploadImage(email, picture)
+            console.log("IMAGE S3: " +  imgS3URL)
             const email_dir = await User.findOne({
                 where: {
                     email: email
@@ -23,7 +63,7 @@ module.exports = {
                     firstname: given_name,
                     lastname: family_name,
                     email: email,
-                    imgurl: picture,
+                    imgurl: imgS3URL,
                     lastlogin: Date.now()
                 })
                 return res.status(201).json({ success: true, data: { title: "User created!", user } });
@@ -32,7 +72,7 @@ module.exports = {
                     firstname: given_name,
                     lastname: family_name,
                     email: email,
-                    imgurl: picture,
+                    imgurl: imgS3URL,
                     lastlogin: Date.now()
                 }, {
                     where: {
