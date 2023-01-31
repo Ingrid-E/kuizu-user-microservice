@@ -1,0 +1,39 @@
+name: CI/CD 
+
+on:
+  push:
+    branches: [ "develop" ]
+
+env:
+  ECS_TASK_DEFINITION: task-definition.json 
+  CONTAINER_NAME: kuizu-users-microservice
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+  ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
+  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
+
+permissions:
+  contents: read
+jobs:
+  build:
+    name: Build 🔨
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18.12.1
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+  test:
+    needs: [build]
+    name: Test 📝
+    env:
+        NODE_ENV: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: npm install --only=dev
+    - run: npm test
